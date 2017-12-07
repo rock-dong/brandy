@@ -532,9 +532,9 @@ void board_init_f(ulong bootflag)
 	gd->relocaddr = addr + sizeof(struct spare_boot_head_t) + sizeof(uboot_hash_value);
 	gd->start_addr_sp = addr_sp;
 	gd->reloc_off = addr - _TEXT_BASE;
-	printf("relocation Offset is: %08lx\n", gd->reloc_off);
+	//printf("relocation Offset is: %08lx\n", gd->reloc_off);
 	memcpy((void *)addr, (void *)_TEXT_BASE, sizeof(uboot_hash_value)+sizeof(struct spare_boot_head_t));
-	debug("from %x to %x, size %x\n", (void *)_TEXT_BASE, (void *)addr, sizeof(struct spare_boot_head_t));
+	//debug("from %x to %x, size %x\n", (void *)_TEXT_BASE, (void *)addr, sizeof(struct spare_boot_head_t));
 	memcpy(id, (void *)gd, sizeof(gd_t));
 
 	relocate_code(addr_sp, id, addr + sizeof(struct spare_boot_head_t)+sizeof(uboot_hash_value));
@@ -807,6 +807,8 @@ void board_init_r(gd_t *id, ulong dest_addr)
 #ifdef BOARD_LATE_INIT
 	board_late_init();
 #endif
+       printf("call uboot led init \n");
+       uboot_led_init();
 #ifdef CONFIG_BITBANGMII
 	bb_miiphy_init();
 #endif

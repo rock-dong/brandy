@@ -825,7 +825,7 @@ int axp_set_charge_vol_limit(void)
 	{
 		gd->pmu_suspend_chgcur = 1500;
 	}
-#if DEBUG
+#ifdef DEBUG
 	printf("pmu_runtime_chgcur=%d\n", gd->pmu_runtime_chgcur);
 	printf("pmu_suspend_chgcur=%d\n", gd->pmu_suspend_chgcur);
 #endif

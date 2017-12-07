@@ -120,7 +120,7 @@ int do_sunxi_flash(cmd_tbl_t * cmdtp, int flag, int argc, char * const argv[])
 		{
 			rblock = (u32)simple_strtoul(argv[4], NULL, 16)/512;
 		}
-#if DEBUG
+#ifdef DEBUG
 		printf("part name   = %s\n", part_name);
 		printf("start block = %x\n", start_block);
 		printf("     nblock = %x\n", rblock);

@@ -43,7 +43,8 @@ unsigned long  nand_read_uboot(int dev_num, unsigned long start, lbaint_t blkcnt
 {
 	start += sunxi_partition_get_offset(dev_num);
 #ifdef DEBUG
-    printf("nand try to read from %x, length %x block\n", start, blkcnt);
+   // printf("nand try to read from %ld, length % block\n", start, blkcnt);
+      printf("nand try to read from block\n");
 #endif
 	return nand_uboot_read((uint)start, (uint)blkcnt, dst);
 }
@@ -52,7 +53,8 @@ unsigned long  nand_write_uboot(int dev_num, unsigned long start, lbaint_t blkcn
 {
 	start += sunxi_partition_get_offset(dev_num);
 #ifdef DEBUG
-    printf("nand try to write from %x, length %x block\n", start, blkcnt);
+    //printf("nand try to write from %ld, length %x block\n", start, blkcnt);
+    printf("nand try to write from \n");
 #endif
 	return nand_uboot_write((uint)start, (uint)blkcnt, (void *)dst);
 }

@@ -34,6 +34,8 @@
 #include <sys_partition.h>
 #include <sys_config.h>
 
+#define UBOOT_LED_SCRIPT_NAME     "uboot_led"
+static __u32 led_hd;
 DECLARE_GLOBAL_DATA_PTR;
 /*
 ************************************************************************************************************
@@ -56,7 +58,8 @@ int board_init(void)
 {
 	gd->bd->bi_arch_number = LINUX_MACHINE_ID;
 	gd->bd->bi_boot_params = (PHYS_SDRAM_1 + 0x100);
-	debug("board_init storage_type = %d\n",uboot_spare_head.boot_data.storage_type);
+	debug("board_init storage_type = %d, add led\n",uboot_spare_head.boot_data.storage_type);
+	printf("board_init storage_type = %d, add led\n",uboot_spare_head.boot_data.storage_type);
 
 	return 0;
 }
@@ -102,6 +105,35 @@ void dram_init_banksize(void)
 		gd->bd->bi_dram[0].size = get_ram_size((long *)PHYS_SDRAM_1, PHYS_SDRAM_1_SIZE);
 	}
 	gd->bd->bi_dram[0].start = PHYS_SDRAM_1;
+}
+void uboot_led_init(void)
+{
+    int ret, val;
+    user_gpio_set_t gpio_info;
+    ret = script_parser_fetch(UBOOT_LED_SCRIPT_NAME, "led_used", &val, 1);
+    if(ret < 0) {
+        printf("fetch led_used script data fail \n");
+    }else {
+	printf("fetch led ok, value %d \n", val);    
+        if(val == 1){
+	    ret = script_parser_fetch(UBOOT_LED_SCRIPT_NAME, "led_gpio", (int *)&gpio_info, sizeof(user_gpio_set_t) / sizeof(int));
+	    if(ret < 0) {
+	        printf("fetch led gpio script fail \n");
+	    }else {
+		printf("led gpio name %s, port %d, port num %d \n", gpio_info.gpio_name, gpio_info.port, gpio_info.port_num);    
+	        led_hd = gpio_request(&gpio_info, 1);   
+                if(led_hd){
+		    printf("led gpio request ok\n" );    
+	  	    gpio_write_one_pin_value(led_hd, 1, "led_gpio");
+		   gpio_release(led_hd, 2);
+	        } else {
+                    printf("led gpio request fail");	    
+	        }
+	    }
+	}else {
+	    printf("led not use");
+	}
+    }
 }
 /*
 ************************************************************************************************************

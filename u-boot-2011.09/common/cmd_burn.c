@@ -152,9 +152,9 @@ int do_burn_from_boot(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	tick_printf("usb probe ok\n");				//开始等待加载驱动，这里不需要延时
 	sunxi_usb_burn_from_boot_overtime = 0;
 	tick_printf("usb setup ok\n");
-	timer_t.expires = 3000;
+	timer_t.expires = 50;
 	add_timer(&timer_t);
-        printf("==== try to handshake ====  \n");
+        printf("==== try to handshake timer shorter ====  \n");
         sunxi_usb_probe_update_action = 0;
 	while(1)
 	{

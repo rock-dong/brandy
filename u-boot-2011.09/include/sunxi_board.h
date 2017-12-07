@@ -90,6 +90,7 @@ extern int drv_disp_standby(unsigned int cmd, void *pArg);
 extern long disp_ioctl(void *hd, unsigned int cmd, void *arg);
 
 extern int board_init(void);
+extern void uboot_led_init(void);
 extern void dram_init_banksize(void);
 extern int dram_init(void);
 

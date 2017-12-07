@@ -262,7 +262,7 @@ void add_timer(struct timer_list *timer)
 	{
 		return ;
 	}
-	debug("timer delay time %d\n", timer->expires);
+	debug("timer delay time %ld\n", timer->expires);
 	if(!(timer_used_status & 0x01))
 	{
 		timer_used_status |= 0x01;
